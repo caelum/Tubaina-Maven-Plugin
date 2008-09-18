@@ -6,6 +6,7 @@ package br.com.caelum.tubaina.plugin;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 
@@ -19,6 +20,8 @@ import br.com.caelum.tubaina.TubainaException;
  * @goal build
  */
 public class TubainaMavenPlugin extends AbstractMojo {
+
+	private static final Logger LOG = Logger.getLogger(TubainaMavenPlugin.class);
 
 	/**
 	 * @parameter
@@ -49,28 +52,41 @@ public class TubainaMavenPlugin extends AbstractMojo {
 	/**
 	 * @parameter
 	 */
-	private Boolean listTodos;
+	private boolean listTodos;
 	/**
 	 * @parameter
 	 */
-	private Boolean strictXhtml;
+	private boolean strictXhtml;
 	/**
 	 * @parameter
 	 */
-	private Boolean showNotes;
+	private boolean showNotes;
 	/**
 	 * @parameter
 	 */
-	private Boolean dontCare;
+	private boolean dontCare;
 	/**
 	 * @parameter
 	 */
-	private Boolean noAnswer;
+	private boolean noAnswer;
 
 	public void execute() throws MojoExecutionException {
-		TubainaBuilder builder = new TubainaBuilder(ParseTypes.valueOf(format), bookName);
-		builder.setInputDir(new File(inputDir)).setOutputDir(new File(outputDir)).setTemplateDir(new File(templateDir))
-				.setOutputFileName(outputFileName);
+		LOG.debug("Parameters: [" + bookName + " " + format + " " + inputDir + " " + outputDir + " " + templateDir
+				+ " " + outputFileName + " " + listTodos + " " + strictXhtml + " " + showNotes + " " + dontCare + " "
+				+ noAnswer + "]");
+		TubainaBuilder builder = new TubainaBuilder(ParseTypes.valueOf(format.toUpperCase()), bookName);
+		if (inputDir != null) {
+			builder.setInputDir(new File(inputDir));
+		}
+		if (outputDir != null) {
+			builder.setOutputDir(new File(outputDir));
+		}
+		if (templateDir != null) {
+			builder.setTemplateDir(new File(templateDir));
+		}
+		if (outputFileName != null) {
+			builder.setOutputFileName(outputFileName);
+		}
 		if (listTodos) {
 			builder.listTodos();
 		}
