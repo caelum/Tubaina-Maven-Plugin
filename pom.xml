@@ -16,7 +16,7 @@
 		<dependency>
 			<groupId>br.com.caelum.tubaina</groupId>
 			<artifactId>tubaina</artifactId>
-			<version>1.2-SNAPSHOT</version>
+			<version>1.6-SNAPSHOT</version>
 		</dependency>
 		
 		<!-- Tubaina's dependencies. For some reason maven is not adding then automatically. -->
